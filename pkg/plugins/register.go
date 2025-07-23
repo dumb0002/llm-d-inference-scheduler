@@ -12,6 +12,7 @@ import (
 
 // RegisterAllPlugins registers the factory functions of all plugins in this repository.
 func RegisterAllPlugins() {
+	plugins.Register(filter.SleepFilterType, filter.SleepFilterFactory)
 	plugins.Register(filter.ByLabelFilterType, filter.ByLabelFilterFactory)
 	plugins.Register(filter.ByLabelSelectorFilterType, filter.ByLabelSelectorFactory)
 	plugins.Register(filter.DecodeFilterType, filter.DecodeFilterFactory)
