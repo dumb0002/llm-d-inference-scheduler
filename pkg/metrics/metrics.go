@@ -27,16 +27,30 @@ var (
 		},
 		[]string{"decision_type"}, // "decode-only" or "prefill-decode"
 	)
+
+	ScaleZeroWaitingRequest = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Subsystem: SchedulerSubsystem,
+			Name:      "scale_zero_waiting_request_count",
+			Help:      metrics.HelpMsgWithStability("Enable autoscaling of pods in a inferencePool. 1 means enable pod autoscaling; 0 means disable pod autoscaling", compbasemetrics.ALPHA),
+		},
+		[]string{"name", "target_model_name"},
+	)
 )
 
 // GetCollectors returns all custom collectors for the llm-d-inference-scheduler.
 func GetCollectors() []prometheus.Collector {
 	return []prometheus.Collector{
 		SchedulerPDDecisionCount,
+		ScaleZeroWaitingRequest,
 	}
 }
 
 // RecordPDDecision records the type of P/D disaggregation decision made.
 func RecordPDDecision(decisionType string) {
 	SchedulerPDDecisionCount.WithLabelValues(decisionType).Inc()
+}
+
+func RecordScaleZeroWaitingRequest(poolName, modelName string, count float64) {
+	ScaleZeroWaitingRequest.WithLabelValues(poolName, modelName).Set(count)
 }

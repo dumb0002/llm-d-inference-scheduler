@@ -1,6 +1,7 @@
 package plugins
 
 import (
+	admission "github.com/llm-d/llm-d-inference-scheduler/pkg/plugins/admission"
 	"github.com/llm-d/llm-d-inference-scheduler/pkg/plugins/filter"
 	prerequest "github.com/llm-d/llm-d-inference-scheduler/pkg/plugins/pre-request"
 	"github.com/llm-d/llm-d-inference-scheduler/pkg/plugins/profile"
@@ -14,6 +15,7 @@ func RegisterAllPlugins() {
 	plugins.Register(filter.ByLabelSelectorType, filter.ByLabelSelectorFactory)
 	plugins.Register(filter.DecodeRoleType, filter.DecodeRoleFactory)
 	plugins.Register(filter.PrefillRoleType, filter.PrefillRoleFactory)
+	plugins.Register(admission.ScaleFromZeroType, admission.ScaleFromZeroTypeHandlerFactory)
 	plugins.Register(prerequest.PrefillHeaderHandlerType, prerequest.PrefillHeaderHandlerFactory)
 	plugins.Register(profile.DataParallelProfileHandlerType, profile.DataParallelProfileHandlerFactory)
 	plugins.Register(profile.PdProfileHandlerType, profile.PdProfileHandlerFactory)
